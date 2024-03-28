@@ -4,4 +4,4 @@ WORKDIR /home/node/src
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-CMD ["npx", "http-server", "-p", "8080", "dist"]
+CMD ["npm", "run", "dev", "--", "--host"]
