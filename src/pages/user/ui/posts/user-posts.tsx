@@ -1,19 +1,13 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-
-type UserPost = {
-  id: number;
-  title: string;
-  body: string;
-  comments: any[];
-};
+import { Link, useParams } from "react-router-dom";
+import { Post } from "../../../../shared/model/Post";
 
 const useUserPosts = (userId: string) => {
   const {
     data: posts,
     isLoading: arePostsLoading,
     isError: arePostsInError,
-  } = useQuery<UserPost[]>({
+  } = useQuery<Post[]>({
     queryKey: ["users", userId, "posts"],
     queryFn: async () => {
       const response = await fetch(
@@ -30,22 +24,26 @@ const useUserPosts = (userId: string) => {
 
   const comments = useQueries<Comment[]>({
     queries: posts
-      ? posts.map(({ id: postId }) => ({
-          queryKey: ["posts", postId, "comments"],
-          queryFn: async () => {
-            const response = await fetch(
-              `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
-            );
-
-            if (!response.ok) {
-              throw new Error(
-                `Failed to fetch comments for post with ID: ${postId}`
+      ? posts.map(({ id: postId }) => {
+          console.log('in user', ["posts", postId, "comments"].toString());
+          return {
+            queryKey: ["posts", `${postId}`, "comments"],
+            staleTime: Infinity,
+            queryFn: async () => {
+              const response = await fetch(
+                `https://jsonplaceholder.typicode.com/posts/${postId}/comments`
               );
-            }
 
-            return response.json();
-          },
-        }))
+              if (!response.ok) {
+                throw new Error(
+                  `Failed to fetch comments for post with ID: ${postId}`
+                );
+              }
+
+              return response.json();
+            },
+          };
+        })
       : [],
   });
 
@@ -94,7 +92,7 @@ export const UserPosts: React.FC = () => {
     <ul>
       {posts?.map((post) => (
         <li key={post.id}>
-          <h3>{post.title}</h3>
+          <Link to={`/posts/${post.id}`}>{post.title}</Link>
           <h5>{post.comments.length}</h5>
         </li>
       ))}
