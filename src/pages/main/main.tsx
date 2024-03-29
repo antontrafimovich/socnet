@@ -1,10 +1,10 @@
-import { UserList } from "./ui/user-list/user-list";
+import { Outlet } from "react-router-dom";
 
 function Main() {
   return (
     <>
-      <h1>Main</h1>
-      <UserList />
+      <header>App logo</header>
+      <Outlet />
     </>
   );
 }

@@ -8,11 +8,31 @@ import ErrorPage from "./pages/main/error-page";
 import { Main } from "./pages/main/main";
 import { User } from "./pages/user/user";
 import { PostPage } from "./pages/post/post";
+import { SelectorPage } from "./pages/selector/selector-page";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Main />, errorElement: <ErrorPage /> },
-  { path: "/users/:userId", element: <User />, errorElement: <ErrorPage /> },
-  { path: "/posts/:postId", element: <PostPage />, errorElement: <ErrorPage /> },
+  {
+    path: "/",
+    element: <Main />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <SelectorPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/users/:userId",
+        element: <User />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "/posts/:postId",
+        element: <PostPage />,
+        errorElement: <ErrorPage />,
+      },
+    ],
+  },
 ]);
 
 const queryClient = new QueryClient();

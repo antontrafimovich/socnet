@@ -25,10 +25,9 @@ const useUserPosts = (userId: string) => {
   const comments = useQueries<Comment[]>({
     queries: posts
       ? posts.map(({ id: postId }) => {
-          console.log('in user', ["posts", postId, "comments"].toString());
+          console.log("in user", ["posts", postId, "comments"].toString());
           return {
             queryKey: ["posts", `${postId}`, "comments"],
-            staleTime: Infinity,
             queryFn: async () => {
               const response = await fetch(
                 `https://jsonplaceholder.typicode.com/posts/${postId}/comments`

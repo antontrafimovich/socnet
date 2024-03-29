@@ -30,7 +30,6 @@ const usePostById = (id: string) => {
     isLoading: areCommentsLoading,
   } = useQuery<any[]>({
     queryKey: ["posts", `${id}`, "comments"],
-    staleTime: Infinity,
     queryFn: async () => {
       const response = await fetch(
         `https://jsonplaceholder.typicode.com/posts/${id}/comments`
