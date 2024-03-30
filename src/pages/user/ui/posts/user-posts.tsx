@@ -25,7 +25,6 @@ const useUserPosts = (userId: string) => {
   const comments = useQueries<Comment[]>({
     queries: posts
       ? posts.map(({ id: postId }) => {
-          console.log("in user", ["posts", postId, "comments"].toString());
           return {
             queryKey: ["posts", `${postId}`, "comments"],
             queryFn: async () => {

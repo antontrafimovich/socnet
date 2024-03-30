@@ -22,8 +22,6 @@ const usePostById = (id: string) => {
     },
   });
 
-  console.log("In post", ["posts", id, "comments"].toString());
-
   const {
     data: comments,
     isError: areCommentserror,

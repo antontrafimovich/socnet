@@ -1,9 +1,12 @@
 import { Outlet } from "react-router-dom";
+import { MainTabset } from "./ui/main-tabset/main-tabset";
 
 function Main() {
   return (
     <>
-      <header>App logo</header>
+      <header>
+        App logo <MainTabset />
+      </header>
       <Outlet />
     </>
   );
